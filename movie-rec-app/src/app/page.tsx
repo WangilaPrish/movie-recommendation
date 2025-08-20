@@ -1,4 +1,4 @@
-import { fetchTrendingMovies } from "@/lib/tmdb";
+import { fetchTrendingMovies } from "../lib/tmdb";
 
 export default async function HomePage() {
     const data = await fetchTrendingMovies();
