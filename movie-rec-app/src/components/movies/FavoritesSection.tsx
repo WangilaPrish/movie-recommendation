@@ -1,5 +1,5 @@
 import React from "react";
-import MovieGrid from "./movies/MovieGrid";
+import MovieGrid from "./MovieGrid";
 
 interface FavoritesSectionProps {
     movies: Array<{
