@@ -5,7 +5,7 @@ interface FavoritesSectionProps {
     movies: Array<{
         id: number;
         title: string;
-        poster_path: string;
+        poster_path: string | null;
         overview: string;
         release_date: string;
     }>;

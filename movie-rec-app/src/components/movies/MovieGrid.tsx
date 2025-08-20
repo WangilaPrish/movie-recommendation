@@ -12,9 +12,12 @@ interface Movie {
 
 interface Props {
     movies: Movie[];
+    favorites?: number[];
+    onToggleFavorite?: (id: number) => void;
+    onFavorite?: (id: number) => void; // alias for callers using different name
 }
 
-export default function MovieGrid({ movies = [] }: Props) {
+export default function MovieGrid({ movies = [], favorites: favProp, onToggleFavorite, onFavorite }: Props) {
     const [favorites, setFavorites] = useState<number[]>(() => {
         try {
             if (typeof window === "undefined") return [];
@@ -28,13 +31,20 @@ export default function MovieGrid({ movies = [] }: Props) {
     // persist favorites to localStorage whenever they change
     useEffect(() => {
         try {
-            localStorage.setItem("favorites", JSON.stringify(favorites));
+            // Only persist when uncontrolled (no favProp passed)
+            if (!favProp) localStorage.setItem("favorites", JSON.stringify(favorites));
         } catch (e) {
             // ignore write errors (e.g., storage disabled)
         }
-    }, [favorites]);
+    }, [favorites, favProp]);
 
     const toggleFavorite = (id: number) => {
+        // If controlled via props, call parent callback
+        if (favProp && (onToggleFavorite || onFavorite)) {
+            (onToggleFavorite || onFavorite)!(id);
+            return;
+        }
+
         setFavorites((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
     };
 
@@ -50,7 +60,7 @@ export default function MovieGrid({ movies = [] }: Props) {
                     <MovieCard
                         key={m.id}
                         movie={m}
-                        isFavorite={favorites.includes(m.id)}
+                        isFavorite={(favProp ?? favorites).includes(m.id)}
                         onToggleFavorite={() => toggleFavorite(m.id)}
                     />
                 ))}
