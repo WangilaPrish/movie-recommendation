@@ -6,7 +6,11 @@ export async function fetchTrendingMovies() {
   const res = await fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`, {
     next: { revalidate: 3600 }, // cache for 1 hour
   });
-  if (!res.ok) throw new Error("Failed to fetch trending movies");
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("TMDB fetch error:", errorText);
+    throw new Error("Failed to fetch trending movies");
+  }
   return res.json();
 }
 
