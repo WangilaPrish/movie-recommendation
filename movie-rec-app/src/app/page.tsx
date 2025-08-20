@@ -1,6 +1,6 @@
-import { fetchTrendingMovies } from "../lib/tmdb";
 import HeroSection from "@/components/HeroSection";
 import MovieGrid from "@/components/movies/MovieGrid";
+import { fetchTrendingMovies } from "../lib/tmdb";
 
 export default async function HomePage() {
     const data = await fetchTrendingMovies();
