@@ -43,14 +43,14 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                 <h3 id={`title-${movie.id}`} className="text-sm md:text-base font-semibold truncate">
                     {movie.title}
                 </h3>
-                <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center justify-between mt-2 relative z-30">
                     <span className="text-xs text-gray-400">{movie.release_date?.slice(0, 4)}</span>
                     <motion.button
                         onClick={onToggleFavorite}
                         aria-pressed={isFavorite}
                         whileTap={{ scale: 0.9 }}
                         animate={{ scale: isFavorite ? 1.05 : 1 }}
-                        className={`ml-2 inline-flex items-center justify-center p-1 rounded-md transition-colors text-sm ${isFavorite ? "bg-pink-600 text-white" : "bg-white/5 text-white/80"
+                        className={`ml-2 inline-flex items-center justify-center p-1 rounded-md transition-colors text-sm z-40 ${isFavorite ? "bg-pink-600 text-white" : "bg-white/5 text-white/80"
                             }`}
                         title={isFavorite ? "Remove favorite" : "Add to favorites"}
                     >
@@ -62,8 +62,9 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
             </div>
 
             {/* overlay with description on hover (visible for pointer devices) */}
-            <div className="pointer-events-none md:pointer-events-auto absolute inset-0 opacity-0 hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3 flex items-end">
+            {/* overlay with description on hover (visible for pointer devices) */}
+            <div className="absolute left-0 right-0 bottom-0 h-1/3 md:h-1/2 opacity-0 hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200 pointer-events-none md:pointer-events-auto z-10">
+                <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 flex items-end">
                     <p className="text-xs text-gray-200 line-clamp-3">{movie.overview}</p>
                 </div>
             </div>
