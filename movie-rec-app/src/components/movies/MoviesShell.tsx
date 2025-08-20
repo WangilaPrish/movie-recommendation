@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import FavoritesSection from "./FavoritesSection";
 import MovieGrid from "./MovieGrid";
 
 interface Movie {
