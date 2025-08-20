@@ -1,9 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const HeroSection = () => (
     <section
-        className="w-full flex flex-col items-center justify-center py-20 bg-gradient-to-r from-indigo-900 via-purple-800 to-indigo-900 text-white relative overflow-hidden"
+        className={`w-full flex flex-col items-center justify-center py-20 bg-gradient-to-r from-indigo-900 via-purple-800 to-indigo-900 text-white relative overflow-hidden ${inter.variable}`}
+        style={{ fontFamily: "var(--font-inter), sans-serif" }}
     >
         {/* Decorative blurred circle */}
         <motion.div
@@ -39,4 +43,4 @@ const HeroSection = () => (
     </section>
 );
 
-export default HeroSection;
+export default Hero

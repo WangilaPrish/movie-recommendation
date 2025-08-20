@@ -8,6 +8,7 @@ interface FavoritesSectionProps {
         poster_path: string;
         overview: string;
         release_date: string;
+        vote_average: number;
     }>;
     onFavorite?: (id: number) => void;
     favorites?: number[];
