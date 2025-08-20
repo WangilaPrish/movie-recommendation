@@ -1,5 +1,6 @@
 import { fetchTrendingMovies } from "../lib/tmdb";
 import HeroSection from "@/components/HeroSection";
+import MovieGrid from "@/components/movies/MovieGrid";
 
 export default async function HomePage() {
     const data = await fetchTrendingMovies();
@@ -8,14 +9,10 @@ export default async function HomePage() {
     return (
         <>
             <HeroSection />
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {movies.map((m: any) => (
-                    <div key={m.id} className="rounded shadow p-2">
-                        <img src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} />
-                        <p>{m.title}</p>
-                    </div>
-                ))}
-            </div>
+            <main className="px-4 md:px-8 lg:px-16 -mt-10 mb-16">
+                {/* MovieGrid is a client component that provides a modern interactive UI */}
+                <MovieGrid movies={movies} />
+            </main>
         </>
     );
 }
