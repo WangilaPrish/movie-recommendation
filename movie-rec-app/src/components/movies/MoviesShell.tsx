@@ -33,7 +33,6 @@ export default function MoviesShell({ movies }: { movies: Movie[] }) {
 
     return (
         <div>
-            <FavoritesSection movies={movies} favorites={favorites} onFavorite={toggleFavorite} />
             <MovieGrid movies={movies} favorites={favorites} onToggleFavorite={toggleFavorite} />
         </div>
     );
