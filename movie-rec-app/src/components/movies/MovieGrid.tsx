@@ -56,9 +56,9 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {movies.map((m) => (
+                {movies.map((m, i) => (
                     <MovieCard
-                        key={m.id}
+                        key={m.id ?? `movie-${i}`}
                         movie={m}
                         isFavorite={(favProp ?? favorites).includes(m.id)}
                         onToggleFavorite={() => toggleFavorite(m.id)}
