@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
 
 interface Movie {
@@ -15,7 +15,24 @@ interface Props {
 }
 
 export default function MovieGrid({ movies = [] }: Props) {
-    const [favorites, setFavorites] = useState<number[]>([]);
+    const [favorites, setFavorites] = useState<number[]>(() => {
+        try {
+            if (typeof window === "undefined") return [];
+            const raw = localStorage.getItem("favorites");
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    });
+
+    // persist favorites to localStorage whenever they change
+    useEffect(() => {
+        try {
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+        } catch (e) {
+            // ignore write errors (e.g., storage disabled)
+        }
+    }, [favorites]);
 
     const toggleFavorite = (id: number) => {
         setFavorites((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
