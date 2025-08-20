@@ -45,15 +45,19 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                 </h3>
                 <div className="flex items-center justify-between mt-2">
                     <span className="text-xs text-gray-400">{movie.release_date?.slice(0, 4)}</span>
-                    <button
+                    <motion.button
                         onClick={onToggleFavorite}
                         aria-pressed={isFavorite}
+                        whileTap={{ scale: 0.9 }}
+                        animate={{ scale: isFavorite ? 1.05 : 1 }}
                         className={`ml-2 inline-flex items-center justify-center p-1 rounded-md transition-colors text-sm ${isFavorite ? "bg-pink-600 text-white" : "bg-white/5 text-white/80"
                             }`}
                         title={isFavorite ? "Remove favorite" : "Add to favorites"}
                     >
-                        {isFavorite ? "♥" : "♡"}
-                    </button>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill={isFavorite ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5">
+                            <path d="M12 21s-7.5-4.95-9.5-8.13C.9 9.35 3.6 5 7.5 5c2.1 0 3.5 1.1 4.5 2.2C12.9 6.1 14.3 5 16.5 5 20.4 5 23.1 9.35 21.5 12.87 19.5 16.05 12 21 12 21z" />
+                        </svg>
+                    </motion.button>
                 </div>
             </div>
 

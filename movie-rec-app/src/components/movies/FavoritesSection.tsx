@@ -20,7 +20,7 @@ const FavoritesSection: React.FC<FavoritesSectionProps> = ({ movies, onFavorite,
     return (
         <section className="mt-8">
             <h2 className="text-2xl font-bold mb-4">Your Favorites</h2>
-            <MovieGrid movies={favoriteMovies} onFavorite={onFavorite} favorites={favorites} />
+            <MovieGrid movies={favoriteMovies} onToggleFavorite={onFavorite} favorites={favorites} />
         </section>
     );
 };
