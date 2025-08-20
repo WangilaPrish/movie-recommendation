@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import MovieGrid from "./MovieGrid";
+import { useEffect, useState } from "react";
 import FavoritesSection from "./FavoritesSection";
+import MovieGrid from "./MovieGrid";
 
 interface Movie {
     id: number;
@@ -24,7 +24,7 @@ export default function MoviesShell({ movies }: { movies: Movie[] }) {
     useEffect(() => {
         try {
             localStorage.setItem("favorites", JSON.stringify(favorites));
-        } catch (e) {}
+        } catch (e) { }
     }, [favorites]);
 
     const toggleFavorite = (id: number) => {

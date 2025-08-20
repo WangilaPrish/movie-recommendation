@@ -1,5 +1,5 @@
 import HeroSection from "@/components/HeroSection";
-import MoviesShell from "@/components/movies/MoviesShell";
+import MoviesShell from "../components/movies/MoviesShell";
 import { fetchTrendingMovies } from "../lib/tmdb";
 
 export default async function HomePage() {
