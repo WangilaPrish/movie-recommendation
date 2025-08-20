@@ -6,8 +6,8 @@ interface FavoritesSectionProps {
         id: number;
         title: string;
         poster_path: string | null;
-        overview: string;
-        release_date: string;
+        overview?: string;
+        release_date?: string;
     }>;
     onFavorite?: (id: number) => void;
     favorites?: number[];
