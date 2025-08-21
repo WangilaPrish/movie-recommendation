@@ -213,7 +213,7 @@ function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) =
                 title="Sort movies"
             >
                 <span className="hidden sm:inline">{options.find((o) => o.key === sort)?.label}</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" className="ml-1 text-gray-400"><path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" className="ml-1 text-gray-400"><path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>
             </button>
 
             {open && (
