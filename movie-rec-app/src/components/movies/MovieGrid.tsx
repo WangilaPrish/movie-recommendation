@@ -74,55 +74,63 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
         <section id="movies" aria-label="Trending movies" className="mt-6 pt-2" style={{ scrollMarginTop: '88px' }}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                 <div>
-                    <h2 className="text-2xl md:text-3xl font-extrabold">Trending Now</h2>
-                    <p className="text-sm text-gray-500 hidden md:block">Hover a poster to see details. Tap to favorite.</p>
+                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Trending Now</h2>
+                    <p className="text-sm text-gray-400 hidden md:block mt-1">Hover a poster to see details. Tap to favorite.</p>
                 </div>
 
-                {/* toolbar: search, sort, view toggle */}
-                <div className="flex items-center gap-3 w-full sm:w-auto">
-                    <label className="relative flex-1 sm:flex-none" htmlFor="movie-search">
-                        <input
-                            id="movie-search"
-                            type="search"
-                            placeholder="Search movies..."
-                            className="w-full sm:w-64 py-2 pl-10 pr-3 rounded-lg bg-white/5 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            aria-label="Search movies by title"
-                        />
-                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m1.35-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </label>
+                {/* toolbar: frosted glass container */}
+                <div className="ml-auto w-full sm:w-auto">
+                    <div className="flex items-center gap-3 bg-black/40 backdrop-blur-sm border border-white/6 rounded-xl px-3 py-2 shadow-sm">
+                        <label className="relative flex-1 sm:flex-none" htmlFor="movie-search">
+                            <input
+                                id="movie-search"
+                                type="search"
+                                placeholder="Search movies..."
+                                className="w-full sm:w-72 py-2 pl-10 pr-3 rounded-lg bg-transparent text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                aria-label="Search movies by title"
+                            />
+                            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m1.35-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </label>
 
-                    <select
-                        value={sort}
-                        onChange={(e) => setSort(e.target.value as SortOpt)}
-                        className="bg-white/5 text-sm py-2 px-3 rounded-lg"
-                        aria-label="Sort movies"
-                    >
-                        <option value="relevance">Relevance</option>
-                        <option value="newest">Newest</option>
-                        <option value="oldest">Oldest</option>
-                    </select>
+                        <select
+                            value={sort}
+                            onChange={(e) => setSort(e.target.value as SortOpt)}
+                            className="bg-white/5 text-sm py-2 px-3 rounded-lg"
+                            aria-label="Sort movies"
+                        >
+                            <option value="relevance">Relevance</option>
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                        </select>
 
-                    <div className="inline-flex items-center bg-white/5 rounded-lg p-1">
-                        <button
-                            onClick={() => setView("grid")}
-                            aria-pressed={view === "grid"}
-                            className={`p-2 rounded-md ${view === "grid" ? "bg-purple-600 text-white" : "text-white/80"}`}
-                            title="Grid view"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" strokeWidth="1.5" /><rect x="13" y="3" width="8" height="8" strokeWidth="1.5" /><rect x="3" y="13" width="8" height="8" strokeWidth="1.5" /><rect x="13" y="13" width="8" height="8" strokeWidth="1.5" /></svg>
-                        </button>
-                        <button
-                            onClick={() => setView("list")}
-                            aria-pressed={view === "list"}
-                            className={`p-2 rounded-md ${view === "list" ? "bg-purple-600 text-white" : "text-white/80"}`}
-                            title="List view"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                        </button>
+                        <div className="inline-flex items-center rounded-lg p-1 bg-gradient-to-r from-purple-700/30 to-indigo-700/20">
+                            <button
+                                onClick={() => setView("grid")}
+                                aria-pressed={view === "grid"}
+                                className={`p-2 rounded-md ${view === "grid" ? "bg-purple-600 text-white shadow" : "text-white/80"}`}
+                                title="Grid view"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" strokeWidth="1.5" /><rect x="13" y="3" width="8" height="8" strokeWidth="1.5" /><rect x="3" y="13" width="8" height="8" strokeWidth="1.5" /><rect x="13" y="13" width="8" height="8" strokeWidth="1.5" /></svg>
+                            </button>
+                            <button
+                                onClick={() => setView("list")}
+                                aria-pressed={view === "list"}
+                                className={`p-2 rounded-md ${view === "list" ? "bg-purple-600 text-white shadow" : "text-white/80"}`}
+                                title="List view"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                            </button>
+                        </div>
+
+                        <div className="ml-2 hidden sm:inline-flex items-center bg-white/6 text-sm text-white/90 rounded-full px-3 py-1">
+                            <span className="font-medium mr-2">Showing</span>
+                            <span className="bg-white/10 px-2 py-0.5 rounded-full text-xs">{filtered.length}</span>
+                            <span className="text-xs text-gray-300 ml-2">of {movies.length}</span>
+                        </div>
                     </div>
                 </div>
             </div>
