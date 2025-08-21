@@ -1,6 +1,7 @@
 "use client";
 import { motion, Variants } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import MovieCard from "./MovieCard";
 
 interface Movie {
@@ -192,21 +193,48 @@ function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) =
     ];
 
     const [open, setOpen] = useState(false);
-    const ref = useRef<HTMLDivElement | null>(null);
+    const wrapperRef = useRef<HTMLDivElement | null>(null);
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
+    const [rect, setRect] = useState<DOMRect | null>(null);
 
     useEffect(() => {
         const onDoc = (e: MouseEvent) => {
-            if (!ref.current) return;
-            if (!ref.current.contains(e.target as Node)) setOpen(false);
+            const target = e.target as Element | null;
+            if (wrapperRef.current && wrapperRef.current.contains(target)) return;
+            if (target && target.closest('[data-sortlistbox]')) return;
+            setOpen(false);
         };
         document.addEventListener("click", onDoc);
         return () => document.removeEventListener("click", onDoc);
     }, []);
 
+    useEffect(() => {
+        if (!open) return;
+        const update = () => {
+            const b = buttonRef.current;
+            if (!b) return setRect(null);
+            setRect(b.getBoundingClientRect());
+        };
+        update();
+        window.addEventListener('resize', update);
+        window.addEventListener('scroll', update, true);
+        return () => {
+            window.removeEventListener('resize', update);
+            window.removeEventListener('scroll', update, true);
+        };
+    }, [open]);
+
     return (
-        <div ref={ref} className="relative">
+        <div ref={wrapperRef} className="relative">
             <button
-                onClick={() => setOpen((v) => !v)}
+                ref={buttonRef}
+                onClick={() => {
+                    setOpen((v) => {
+                        const next = !v;
+                        if (next && buttonRef.current) setRect(buttonRef.current.getBoundingClientRect());
+                        return next;
+                    });
+                }}
                 aria-haspopup="listbox"
                 aria-expanded={open}
                 className="flex items-center gap-2 py-2 px-3 rounded-lg bg-white/6 text-sm text-gray-900 dark:text-white"
@@ -216,20 +244,23 @@ function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) =
                 <svg width="14" height="14" viewBox="0 0 24 24" className="ml-1 text-gray-400"><path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>
             </button>
 
-            {open && (
-                <ul role="listbox" aria-label="Sort movies" tabIndex={-1} className="absolute right-0 mt-2 w-40 bg-white/95 dark:bg-gray-900 rounded-lg shadow-lg z-50 ring-1 ring-black/10">
-                    {options.map((o) => (
-                        <li
-                            key={o.key}
-                            role="option"
-                            aria-selected={o.key === sort}
-                            onClick={() => { setSort(o.key); setOpen(false); }}
-                            className={`cursor-pointer px-3 py-2 text-sm ${o.key === sort ? 'font-semibold bg-gray-100 dark:bg-gray-800' : 'text-gray-700 dark:text-gray-200'}`}
-                        >
-                            {o.label}
-                        </li>
-                    ))}
-                </ul>
+            {open && rect && createPortal(
+                <div data-sortlistbox>
+                    <ul role="listbox" aria-label="Sort movies" tabIndex={-1} style={{ position: 'fixed', top: rect.bottom + window.scrollY, left: rect.left, minWidth: rect.width }} className="mt-2 bg-white/95 dark:bg-gray-900 rounded-lg shadow-lg z-[9999] ring-1 ring-black/10">
+                        {options.map((o) => (
+                            <li
+                                key={o.key}
+                                role="option"
+                                aria-selected={o.key === sort}
+                                onClick={() => { setSort(o.key); setOpen(false); }}
+                                className={`cursor-pointer px-3 py-2 text-sm ${o.key === sort ? 'font-semibold bg-gray-100 dark:bg-gray-800' : 'text-gray-700 dark:text-gray-200'}`}
+                            >
+                                {o.label}
+                            </li>
+                        ))}
+                    </ul>
+                </div>,
+                document.body
             )}
         </div>
     );
