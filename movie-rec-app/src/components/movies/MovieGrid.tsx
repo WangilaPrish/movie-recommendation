@@ -1,6 +1,6 @@
 "use client";
 import { motion, Variants } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import MovieCard from "./MovieCard";
 
 interface Movie {
@@ -113,16 +113,11 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
                             </svg>
                         </label>
 
-                        <select
-                            value={sort}
-                            onChange={(e) => setSort(e.target.value as SortOpt)}
-                            className="bg-white/5 text-sm py-2 px-3 rounded-lg text-gray-900 dark:text-white"
-                            aria-label="Sort movies"
-                        >
-                            <option value="relevance">Relevance</option>
-                            <option value="newest">Newest</option>
-                            <option value="oldest">Oldest</option>
-                        </select>
+                        {/* custom, themeable listbox for sort so options are readable on dark backgrounds */}
+                        <div className="relative" ref={(el) => { /* placeholder for ref assignment below via sortRef */ }}>
+                            {/* small inline listbox */}
+                            <SortListbox sort={sort} setSort={setSort} />
+                        </div>
 
                         <div className="inline-flex items-center rounded-lg p-1 bg-gradient-to-r from-purple-700/30 to-indigo-700/20">
                             <button
@@ -187,3 +182,55 @@ const container: Variants = {
     hidden: { opacity: 0, y: 8 },
     visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.04 } },
 };
+
+// Small accessible listbox used for sorting. Kept local to avoid adding files.
+function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) => void }) {
+    const options: { key: SortOpt; label: string }[] = [
+        { key: "relevance", label: "Relevance" },
+        { key: "newest", label: "Newest" },
+        { key: "oldest", label: "Oldest" },
+    ];
+
+    const [open, setOpen] = useState(false);
+    const ref = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const onDoc = (e: MouseEvent) => {
+            if (!ref.current) return;
+            if (!ref.current.contains(e.target as Node)) setOpen(false);
+        };
+        document.addEventListener("click", onDoc);
+        return () => document.removeEventListener("click", onDoc);
+    }, []);
+
+    return (
+        <div ref={ref} className="relative">
+            <button
+                onClick={() => setOpen((v) => !v)}
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                className="flex items-center gap-2 py-2 px-3 rounded-lg bg-white/6 text-sm text-gray-900 dark:text-white"
+                title="Sort movies"
+            >
+                <span className="hidden sm:inline">{options.find((o) => o.key === sort)?.label}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" className="ml-1 text-gray-400"><path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>
+            </button>
+
+            {open && (
+                <ul role="listbox" aria-label="Sort movies" tabIndex={-1} className="absolute right-0 mt-2 w-40 bg-white/95 dark:bg-gray-900 rounded-lg shadow-lg z-50 ring-1 ring-black/10">
+                    {options.map((o) => (
+                        <li
+                            key={o.key}
+                            role="option"
+                            aria-selected={o.key === sort}
+                            onClick={() => { setSort(o.key); setOpen(false); }}
+                            className={`cursor-pointer px-3 py-2 text-sm ${o.key === sort ? 'font-semibold bg-gray-100 dark:bg-gray-800' : 'text-gray-700 dark:text-gray-200'}`}
+                        >
+                            {o.label}
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+}
