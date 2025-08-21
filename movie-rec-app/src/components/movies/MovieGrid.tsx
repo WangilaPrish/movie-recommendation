@@ -142,10 +142,10 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
                 initial="hidden"
                 animate="visible"
                 variants={container}
-                className={view === "grid" ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" : "flex flex-col gap-3"}
+                className={view === "grid" ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6" : "flex flex-col gap-4"}
             >
                 {filtered.map((m, i) => (
-                    <motion.div key={m.id ?? `movie-${i}`} variants={item}>
+                    <motion.div key={m.id ?? `movie-${i}`} variants={item} whileHover={{ y: -6 }} whileTap={{ scale: 0.98 }} className="will-change-transform">
                         <MovieCard
                             movie={m}
                             isFavorite={(favProp ?? favorites).includes(m.id)}
