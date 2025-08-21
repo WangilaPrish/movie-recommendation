@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { motion, Variants } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import MovieCard from "./MovieCard";
 
 interface Movie {
@@ -48,23 +49,116 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
         setFavorites((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
     };
 
+    // UI controls: search, sort, view
+    const [query, setQuery] = useState<string>("");
+    const [sort, setSort] = useState<SortOpt>("relevance");
+    const [view, setView] = useState<"grid" | "list">("grid");
+
+    const filtered = useMemo(() => {
+        const q = query.trim().toLowerCase();
+        let list = movies.slice();
+        if (q) {
+            list = list.filter((m) => (m.title || "").toLowerCase().includes(q));
+        }
+
+        if (sort === "newest") {
+            list.sort((a, b) => (b.release_date || "").localeCompare(a.release_date || ""));
+        } else if (sort === "oldest") {
+            list.sort((a, b) => (a.release_date || "").localeCompare(b.release_date || ""));
+        }
+
+        return list;
+    }, [movies, query, sort]);
+
     return (
         <section id="movies" aria-label="Trending movies" className="mt-6">
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl md:text-3xl font-extrabold">Trending Now</h2>
-                <p className="text-sm text-gray-500 hidden md:block">Hover a poster to see details. Tap to favorite.</p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+                <div>
+                    <h2 className="text-2xl md:text-3xl font-extrabold">Trending Now</h2>
+                    <p className="text-sm text-gray-500 hidden md:block">Hover a poster to see details. Tap to favorite.</p>
+                </div>
+
+                {/* toolbar: search, sort, view toggle */}
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                    <label className="relative flex-1 sm:flex-none" htmlFor="movie-search">
+                        <input
+                            id="movie-search"
+                            type="search"
+                            placeholder="Search movies..."
+                            className="w-full sm:w-64 py-2 pl-10 pr-3 rounded-lg bg-white/5 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            aria-label="Search movies by title"
+                        />
+                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m1.35-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </label>
+
+                    <select
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value as SortOpt)}
+                        className="bg-white/5 text-sm py-2 px-3 rounded-lg"
+                        aria-label="Sort movies"
+                    >
+                        <option value="relevance">Relevance</option>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                    </select>
+
+                    <div className="inline-flex items-center bg-white/5 rounded-lg p-1">
+                        <button
+                            onClick={() => setView("grid")}
+                            aria-pressed={view === "grid"}
+                            className={`p-2 rounded-md ${view === "grid" ? "bg-purple-600 text-white" : "text-white/80"}`}
+                            title="Grid view"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" strokeWidth="1.5" /><rect x="13" y="3" width="8" height="8" strokeWidth="1.5" /><rect x="3" y="13" width="8" height="8" strokeWidth="1.5" /><rect x="13" y="13" width="8" height="8" strokeWidth="1.5" /></svg>
+                        </button>
+                        <button
+                            onClick={() => setView("list")}
+                            aria-pressed={view === "list"}
+                            className={`p-2 rounded-md ${view === "list" ? "bg-purple-600 text-white" : "text-white/80"}`}
+                            title="List view"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {movies.map((m, i) => (
-                    <MovieCard
-                        key={m.id ?? `movie-${i}`}
-                        movie={m}
-                        isFavorite={(favProp ?? favorites).includes(m.id)}
-                        onToggleFavorite={() => toggleFavorite(m.id)}
-                    />
+            <div className="mb-3 text-sm text-gray-400">Showing {filtered.length} of {movies.length}</div>
+
+            <motion.div
+                layout
+                initial="hidden"
+                animate="visible"
+                variants={container}
+                className={view === "grid" ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" : "flex flex-col gap-3"}
+            >
+                {filtered.map((m, i) => (
+                    <motion.div key={m.id ?? `movie-${i}`} variants={item}>
+                        <MovieCard
+                            movie={m}
+                            isFavorite={(favProp ?? favorites).includes(m.id)}
+                            onToggleFavorite={() => toggleFavorite(m.id)}
+                        />
+                    </motion.div>
                 ))}
-            </div>
+            </motion.div>
         </section>
     );
 }
+
+// local component state/types/variants
+type SortOpt = "relevance" | "newest" | "oldest";
+
+const item: Variants = {
+    hidden: { opacity: 0, y: 8 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.36 } },
+};
+
+const container: Variants = {
+    hidden: { opacity: 0, y: 8 },
+    visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.04 } },
+};
