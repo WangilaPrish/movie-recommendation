@@ -70,8 +70,25 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
         return list;
     }, [movies, query, sort]);
 
+    // ensure anchor scroll offsets account for sticky nav height
+    useEffect(() => {
+        const updateOffset = () => {
+            const nav = document.querySelector('nav') as HTMLElement | null;
+            const el = document.getElementById('movies');
+            const navHeight = (nav?.offsetHeight ?? 0);
+            // add small extra gap so the heading isn't flush against the nav
+            const offset = Math.max(64, navHeight + 12);
+            if (el) el.style.scrollMarginTop = `${offset}px`;
+        };
+
+        // run on mount and when window resizes
+        updateOffset();
+        window.addEventListener('resize', updateOffset);
+        return () => window.removeEventListener('resize', updateOffset);
+    }, []);
+
     return (
-        <section id="movies" aria-label="Trending movies" className="mt-8 pt-4" style={{ scrollMarginTop: '120px' }}>
+        <section id="movies" aria-label="Trending movies" className="mt-8 pt-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                 <div>
                     <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Trending Now</h2>
