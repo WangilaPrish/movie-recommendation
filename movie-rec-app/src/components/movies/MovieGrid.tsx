@@ -91,8 +91,8 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
         <section id="movies" aria-label="Trending movies" className="mt-8 pt-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                 <div>
-                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Trending Now</h2>
-                    <p className="text-sm text-gray-400 hidden md:block mt-1">Hover a poster to see details. Tap to favorite.</p>
+                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">Trending Now</h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 hidden md:block mt-1">Hover a poster to see details. Tap to favorite.</p>
                 </div>
 
                 {/* toolbar: frosted glass container */}
@@ -103,7 +103,7 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
                                 id="movie-search"
                                 type="search"
                                 placeholder="Search movies..."
-                                className="w-full sm:w-72 py-2 pl-10 pr-3 rounded-lg bg-transparent text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                className="w-full sm:w-72 py-2 pl-10 pr-3 rounded-lg bg-transparent text-sm placeholder:text-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                                 aria-label="Search movies by title"
@@ -116,7 +116,7 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
                         <select
                             value={sort}
                             onChange={(e) => setSort(e.target.value as SortOpt)}
-                            className="bg-white/5 text-sm py-2 px-3 rounded-lg"
+                            className="bg-white/5 text-sm py-2 px-3 rounded-lg text-gray-900 dark:text-white"
                             aria-label="Sort movies"
                         >
                             <option value="relevance">Relevance</option>
@@ -128,7 +128,7 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
                             <button
                                 onClick={() => setView("grid")}
                                 aria-pressed={view === "grid"}
-                                className={`p-2 rounded-md ${view === "grid" ? "bg-purple-600 text-white shadow" : "text-white/80"}`}
+                                className={`p-2 rounded-md ${view === "grid" ? "bg-purple-600 text-white shadow" : "text-gray-700 dark:text-white/80"}`}
                                 title="Grid view"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" strokeWidth="1.5" /><rect x="13" y="3" width="8" height="8" strokeWidth="1.5" /><rect x="3" y="13" width="8" height="8" strokeWidth="1.5" /><rect x="13" y="13" width="8" height="8" strokeWidth="1.5" /></svg>
@@ -136,23 +136,23 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
                             <button
                                 onClick={() => setView("list")}
                                 aria-pressed={view === "list"}
-                                className={`p-2 rounded-md ${view === "list" ? "bg-purple-600 text-white shadow" : "text-white/80"}`}
+                                className={`p-2 rounded-md ${view === "list" ? "bg-purple-600 text-white shadow" : "text-gray-700 dark:text-white/80"}`}
                                 title="List view"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                             </button>
                         </div>
 
-                        <div className="ml-2 hidden sm:inline-flex items-center bg-white/6 text-sm text-white/90 rounded-full px-3 py-1">
+                        <div className="ml-2 hidden sm:inline-flex items-center bg-white/6 text-sm text-gray-700 dark:text-white/90 rounded-full px-3 py-1">
                             <span className="font-medium mr-2">Showing</span>
                             <span className="bg-white/10 px-2 py-0.5 rounded-full text-xs">{filtered.length}</span>
-                            <span className="text-xs text-gray-300 ml-2">of {movies.length}</span>
+                            <span className="text-xs text-gray-500 dark:text-gray-300 ml-2">of {movies.length}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="mb-3 text-sm text-gray-400">Showing {filtered.length} of {movies.length}</div>
+            <div className="mb-3 text-sm text-gray-600 dark:text-gray-400">Showing {filtered.length} of {movies.length}</div>
 
             <motion.div
                 layout
