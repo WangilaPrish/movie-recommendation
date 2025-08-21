@@ -71,7 +71,7 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
     }, [movies, query, sort]);
 
     return (
-        <section id="movies" aria-label="Trending movies" className="mt-6">
+        <section id="movies" aria-label="Trending movies" className="mt-6 pt-2" style={{ scrollMarginTop: '88px' }}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                 <div>
                     <h2 className="text-2xl md:text-3xl font-extrabold">Trending Now</h2>
