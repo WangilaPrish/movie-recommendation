@@ -29,27 +29,20 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
         }
     });
 
-    // persist favorites to localStorage whenever they change
     useEffect(() => {
         try {
-            // Only persist when uncontrolled (no favProp passed)
             if (!favProp) localStorage.setItem("favorites", JSON.stringify(favorites));
-        } catch (e) {
-            // ignore write errors (e.g., storage disabled)
-        }
+        } catch (e) { }
     }, [favorites, favProp]);
 
     const toggleFavorite = (id: number) => {
-        // If controlled via props, call parent callback
         if (favProp && (onToggleFavorite || onFavorite)) {
             (onToggleFavorite || onFavorite)!(id);
             return;
         }
-
         setFavorites((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
     };
 
-    // UI controls: search, sort, view
     const [query, setQuery] = useState<string>("");
     const [sort, setSort] = useState<SortOpt>("relevance");
     const [view, setView] = useState<"grid" | "list">("grid");
@@ -60,28 +53,22 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
         if (q) {
             list = list.filter((m) => (m.title || "").toLowerCase().includes(q));
         }
-
         if (sort === "newest") {
             list.sort((a, b) => (b.release_date || "").localeCompare(a.release_date || ""));
         } else if (sort === "oldest") {
             list.sort((a, b) => (a.release_date || "").localeCompare(b.release_date || ""));
         }
-
         return list;
     }, [movies, query, sort]);
 
-    // ensure anchor scroll offsets account for sticky nav height
     useEffect(() => {
         const updateOffset = () => {
             const nav = document.querySelector('nav') as HTMLElement | null;
             const el = document.getElementById('movies');
             const navHeight = (nav?.offsetHeight ?? 0);
-            // add small extra gap so the heading isn't flush against the nav
             const offset = Math.max(64, navHeight + 12);
             if (el) el.style.scrollMarginTop = `${offset}px`;
         };
-
-        // run on mount and when window resizes
         updateOffset();
         window.addEventListener('resize', updateOffset);
         return () => window.removeEventListener('resize', updateOffset);
@@ -97,7 +84,9 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
 
                 {/* toolbar: frosted glass container */}
                 <div className="ml-auto w-full sm:w-auto">
-                    <div className="flex items-center gap-3 bg-black/40 backdrop-blur-sm border border-white/6 rounded-xl px-3 py-2 shadow-sm">
+                    <div className="flex items-center gap-3 bg-black/40 backdrop-blur-sm border border-white/6
+                        rounded-xl px-3 py-2 shadow-sm relative z-50">
+
                         <label className="relative flex-1 sm:flex-none" htmlFor="movie-search">
                             <input
                                 id="movie-search"
@@ -113,9 +102,8 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
                             </svg>
                         </label>
 
-                        {/* custom, themeable listbox for sort so options are readable on dark backgrounds */}
-                        <div className="relative" ref={(el) => { /* placeholder for ref assignment below via sortRef */ }}>
-                            {/* small inline listbox */}
+                        {/* sort listbox */}
+                        <div className="relative">
                             <SortListbox sort={sort} setSort={setSort} />
                         </div>
 
@@ -183,7 +171,6 @@ const container: Variants = {
     visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.04 } },
 };
 
-// Small accessible listbox used for sorting. Kept local to avoid adding files.
 function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) => void }) {
     const [open, setOpen] = useState(false);
     const btnRef = useRef<HTMLButtonElement>(null);
