@@ -1,7 +1,6 @@
 "use client";
 import { motion, Variants } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import MovieCard from "./MovieCard";
 
 interface Movie {
@@ -186,81 +185,42 @@ const container: Variants = {
 
 // Small accessible listbox used for sorting. Kept local to avoid adding files.
 function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) => void }) {
-    const options: { key: SortOpt; label: string }[] = [
-        { key: "relevance", label: "Relevance" },
-        { key: "newest", label: "Newest" },
-        { key: "oldest", label: "Oldest" },
-    ];
-
     const [open, setOpen] = useState(false);
-    const wrapperRef = useRef<HTMLDivElement | null>(null);
-    const buttonRef = useRef<HTMLButtonElement | null>(null);
-    const [rect, setRect] = useState<DOMRect | null>(null);
-
-    useEffect(() => {
-        const onDoc = (e: MouseEvent) => {
-            const target = e.target as Element | null;
-            if (wrapperRef.current && wrapperRef.current.contains(target)) return;
-            if (target && target.closest('[data-sortlistbox]')) return;
-            setOpen(false);
-        };
-        document.addEventListener("click", onDoc);
-        return () => document.removeEventListener("click", onDoc);
-    }, []);
-
-    useEffect(() => {
-        if (!open) return;
-        const update = () => {
-            const b = buttonRef.current;
-            if (!b) return setRect(null);
-            setRect(b.getBoundingClientRect());
-        };
-        update();
-        window.addEventListener('resize', update);
-        window.addEventListener('scroll', update, true);
-        return () => {
-            window.removeEventListener('resize', update);
-            window.removeEventListener('scroll', update, true);
-        };
-    }, [open]);
+    const btnRef = useRef<HTMLButtonElement>(null);
 
     return (
-        <div ref={wrapperRef} className="relative">
+        <div className="relative inline-block text-left">
             <button
-                ref={buttonRef}
-                onClick={() => {
-                    setOpen((v) => {
-                        const next = !v;
-                        if (next && buttonRef.current) setRect(buttonRef.current.getBoundingClientRect());
-                        return next;
-                    });
-                }}
+                ref={btnRef}
+                className="px-4 py-2 rounded bg-zinc-900 text-white border border-zinc-700 focus:outline-none focus:ring"
+                onClick={() => setOpen((v) => !v)}
                 aria-haspopup="listbox"
                 aria-expanded={open}
-                className="flex items-center gap-2 py-2 px-3 rounded-lg bg-white/6 text-sm text-gray-900 dark:text-white"
-                title="Sort movies"
             >
-                <span className="hidden sm:inline">{options.find((o) => o.key === sort)?.label}</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" className="ml-1 text-gray-400"><path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>
+                {sort.charAt(0).toUpperCase() + sort.slice(1)}
+                <span className="ml-2">&#9662;</span>
             </button>
-
-            {open && rect && createPortal(
-                <div data-sortlistbox>
-                    <ul role="listbox" aria-label="Sort movies" tabIndex={-1} style={{ position: 'fixed', top: rect.bottom + window.scrollY, left: rect.left, minWidth: rect.width }} className="mt-2 bg-white/95 dark:bg-gray-900 rounded-lg shadow-lg z-[9999] ring-1 ring-black/10">
-                        {options.map((o) => (
-                            <li
-                                key={o.key}
-                                role="option"
-                                aria-selected={o.key === sort}
-                                onClick={() => { setSort(o.key); setOpen(false); }}
-                                className={`cursor-pointer px-3 py-2 text-sm ${o.key === sort ? 'font-semibold bg-gray-100 dark:bg-gray-800' : 'text-gray-700 dark:text-gray-200'}`}
-                            >
-                                {o.label}
-                            </li>
-                        ))}
-                    </ul>
-                </div>,
-                document.body
+            {open && (
+                <ul
+                    className="absolute left-0 mt-2 w-36 rounded shadow-lg bg-zinc-800 text-white z-50"
+                    role="listbox"
+                    tabIndex={-1}
+                >
+                    {["relevance", "newest", "oldest"].map((opt) => (
+                        <li
+                            key={opt}
+                            className={`px-4 py-2 cursor-pointer hover:bg-zinc-700 ${sort === opt ? "font-bold" : ""}`}
+                            role="option"
+                            aria-selected={sort === opt}
+                            onClick={() => {
+                                setSort(opt as SortOpt);
+                                setOpen(false);
+                            }}
+                        >
+                            {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                        </li>
+                    ))}
+                </ul>
             )}
         </div>
     );
