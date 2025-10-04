@@ -1,6 +1,6 @@
 "use client";
 import { motion, Variants } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MovieCard from "./MovieCard";
 
 interface Movie {
@@ -173,12 +173,10 @@ const container: Variants = {
 
 function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) => void }) {
     const [open, setOpen] = useState(false);
-    const btnRef = useRef<HTMLButtonElement>(null);
 
     return (
         <div className="relative inline-block text-left">
             <button
-                ref={btnRef}
                 className="px-4 py-2 rounded bg-zinc-900 text-white border border-zinc-700 focus:outline-none focus:ring"
                 onClick={() => setOpen((v) => !v)}
                 aria-haspopup="listbox"
@@ -189,7 +187,7 @@ function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) =
             </button>
             {open && (
                 <ul
-                    className="absolute left-0 mt-2 w-36 rounded shadow-lg bg-zinc-800 text-white z-50"
+                    className="absolute left-0 mt-2 w-36 rounded shadow-lg bg-zinc-800 text-white z-[9999]"
                     role="listbox"
                     tabIndex={-1}
                 >
