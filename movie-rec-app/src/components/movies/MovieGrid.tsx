@@ -273,14 +273,7 @@ const container: Variants = {
 // Modern Sort Listbox Component
 function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) => void }) {
     const [open, setOpen] = useState(false);
-    const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
-
-    useEffect(() => {
-        if (open && buttonRef.current) {
-            setButtonRect(buttonRef.current.getBoundingClientRect());
-        }
-    }, [open]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -296,67 +289,57 @@ function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) =
     }, [open]);
 
     return (
-        <>
-            <div className="relative">
-                <motion.button
-                    ref={buttonRef}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-2 px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white font-medium hover:bg-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                    onClick={() => setOpen(!open)}
-                    aria-haspopup="listbox"
-                    aria-expanded={open}
+        <div className="relative z-50">
+            <motion.button
+                ref={buttonRef}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-2 px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white font-medium hover:bg-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                onClick={() => setOpen(!open)}
+                aria-haspopup="listbox"
+                aria-expanded={open}
+            >
+                <span>{sort.charAt(0).toUpperCase() + sort.slice(1)}</span>
+                <motion.svg
+                    animate={{ rotate: open ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                 >
-                    <span>{sort.charAt(0).toUpperCase() + sort.slice(1)}</span>
-                    <motion.svg
-                        animate={{ rotate: open ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </motion.svg>
-                </motion.button>
-            </div>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </motion.svg>
+            </motion.button>
 
-            {/* Portal the dropdown to document.body */}
-            {open && buttonRect && typeof document !== 'undefined' && (
-                <div
-                    style={{
-                        position: 'fixed',
-                        top: buttonRect.bottom + 8,
-                        left: buttonRect.left,
-                        zIndex: 99999,
-                    }}
+            {/* Dropdown Menu */}
+            {open && (
+                <motion.ul
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    className="absolute top-full left-0 mt-2 w-40 bg-zinc-900/95 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden z-[99999]"
+                    role="listbox"
+                    style={{ zIndex: 99999 }}
                 >
-                    <motion.ul
-                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                        className="w-40 bg-zinc-900/95 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl overflow-hidden"
-                        role="listbox"
-                    >
-                        {["relevance", "newest", "oldest"].map((opt) => (
-                            <motion.li
-                                key={opt}
-                                whileHover={{ backgroundColor: "rgba(139, 92, 246, 0.3)" }}
-                                className={`px-4 py-3 cursor-pointer transition-all duration-150 ${sort === opt ? "bg-purple-600/50 text-white font-semibold" : "text-gray-300 hover:text-white"
-                                    }`}
-                                role="option"
-                                aria-selected={sort === opt}
-                                onClick={() => {
-                                    setSort(opt as SortOpt);
-                                    setOpen(false);
-                                }}
-                            >
-                                {opt.charAt(0).toUpperCase() + opt.slice(1)}
-                            </motion.li>
-                        ))}
-                    </motion.ul>
-                </div>
+                    {["relevance", "newest", "oldest"].map((opt) => (
+                        <motion.li
+                            key={opt}
+                            whileHover={{ backgroundColor: "rgba(139, 92, 246, 0.3)" }}
+                            className={`px-4 py-3 cursor-pointer transition-all duration-150 ${sort === opt ? "bg-purple-600/50 text-white font-semibold" : "text-gray-300 hover:text-white"
+                                }`}
+                            role="option"
+                            aria-selected={sort === opt}
+                            onClick={() => {
+                                setSort(opt as SortOpt);
+                                setOpen(false);
+                            }}
+                        >
+                            {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                        </motion.li>
+                    ))}
+                </motion.ul>
             )}
-        </>
+        </div>
     );
 }
