@@ -136,7 +136,6 @@ export default function MovieGrid({ movies = [], favorites: favProp, onToggleFav
                                 </svg>
                             </motion.div>
 
-                            {/* Sort Dropdown */}
                             <SortListbox sort={sort} setSort={setSort} />
 
                             {/* View Toggle */}
@@ -303,7 +302,7 @@ function SortListbox({ sort, setSort }: { sort: SortOpt; setSort: (s: SortOpt) =
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    className="absolute top-full left-0 mt-2 w-40 bg-zinc-900/95 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl z-[9999] overflow-hidden"
+                    className="absolute top-full left-0 mt-2 w-40 bg-zinc-900/95 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl z-[99999] overflow-hidden"
                     role="listbox"
                 >
                     {["relevance", "newest", "oldest"].map((opt) => (
