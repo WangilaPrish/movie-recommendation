@@ -221,11 +221,7 @@ const Footer: React.FC = () => {
                 >
                     <div className="flex items-center gap-6 text-sm text-gray-400">
                         <span>&copy; {currentYear} FilmFindr. All rights reserved.</span>
-                        <div className="hidden lg:flex items-center gap-4">
-                            <span>Built with React 19</span>
-                            <div className="w-1 h-1 bg-gray-600 rounded-full" />
-                            <span>Powered by TMDB</span>
-                        </div>
+
                     </div>
 
                     <div className="flex items-center gap-4">
@@ -244,11 +240,6 @@ const Footer: React.FC = () => {
 
                         <div className="w-px h-6 bg-white/20 mx-2" />
 
-                        <div className="flex items-center gap-3">
-                            <span className="text-xs text-gray-500">Made with</span>
-                            <div className="w-4 h-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-sm animate-pulse" />
-                            <span className="text-xs text-gray-500">for movie lovers</span>
-                        </div>
                     </div>
                 </motion.div>
             </div>
