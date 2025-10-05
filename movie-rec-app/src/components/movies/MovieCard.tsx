@@ -420,7 +420,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                                                 {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
                                             </div>
                                         </motion.button>
-                                    </div>
+                                    </motion.div>
                                 </motion.div>
                             </div>
                         </motion.div>
