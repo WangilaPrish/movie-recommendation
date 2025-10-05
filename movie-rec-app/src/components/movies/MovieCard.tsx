@@ -220,7 +220,8 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-sm"
+                        className="fixed inset-0 z-[99999] bg-black/95 backdrop-blur-sm"
+                        style={{ zIndex: 99999 }}
                         onClick={() => setShowDetails(false)}
                     >
                         {/* Background Image */}
