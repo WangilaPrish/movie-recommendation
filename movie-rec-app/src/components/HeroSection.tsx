@@ -120,19 +120,7 @@ const HeroSection = () => {
                             </span>
                         </a>
 
-                        <button
-                            onClick={() => setShowTrailer(true)}
-                            className="group px-10 py-5 border-2 border-white/30 rounded-2xl font-semibold text-lg backdrop-blur-xl hover:border-white/50 hover:scale-105 transition-all duration-300"
-                        >
-                            <span className="flex items-center gap-3">
-                                <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center">
-                                    <svg className="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8 5v14l11-7z" />
-                                    </svg>
-                                </div>
-                                <span>Watch Demo</span>
-                            </span>
-                        </button>
+
                     </motion.div>
 
                     {/* Simplified Stats */}
