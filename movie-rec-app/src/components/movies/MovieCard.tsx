@@ -331,9 +331,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                     </button>
 
                     {/* Quality Badge */}
-                    <div className="absolute top-3 left-3 px-2 py-1 bg-green-500/90 rounded-md z-20">
-                        <span className="text-xs font-bold text-white">HD</span>
-                    </div>
+
                 </div>
 
                 {/* Content Section */}
