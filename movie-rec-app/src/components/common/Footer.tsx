@@ -16,20 +16,14 @@ const Footer: React.FC = () => {
         company: [
             { label: "About", href: "/about" },
             { label: "Blog", href: "/blog" },
-            { label: "Careers", href: "/careers" },
             { label: "Press", href: "/press" }
         ],
         support: [
             { label: "Help Center", href: "/help" },
             { label: "Contact", href: "/contact" },
-            { label: "Status", href: "/status" },
-            { label: "Documentation", href: "/docs" }
         ],
         legal: [
             { label: "Privacy", href: "/privacy" },
-            { label: "Terms", href: "/terms" },
-            { label: "Security", href: "/security" },
-            { label: "Cookies", href: "/cookies" }
         ]
     };
 
