@@ -244,8 +244,8 @@ const AboutPage = () => {
                                     whileHover={{ scale: 1.02, x: 10 }}
                                     onClick={() => setActiveFeature(index)}
                                     className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-all duration-300 cursor-pointer ${activeFeature === index
-                                            ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-purple-500/50"
-                                            : "bg-white/5 border-white/10 hover:border-white/20"
+                                        ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-purple-500/50"
+                                        : "bg-white/5 border-white/10 hover:border-white/20"
                                         }`}
                                 >
                                     <div className="flex items-start gap-3 sm:gap-4">

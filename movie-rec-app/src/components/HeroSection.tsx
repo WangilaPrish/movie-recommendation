@@ -1,7 +1,7 @@
 "use client";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { Inter } from "next/font/google";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
