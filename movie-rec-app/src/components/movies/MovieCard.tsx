@@ -120,7 +120,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                                         loading="eager"
                                     />
                                     <div className="absolute top-4 left-4 px-3 py-1 bg-green-500 rounded-lg">
-                                        <span className="text-white font-bold text-sm">HD</span>
+
                                     </div>
                                 </div>
                             </div>
@@ -216,8 +216,8 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                                         <button
                                             onClick={onToggleFavorite}
                                             className={`flex-1 p-4 rounded-xl font-semibold transition-all duration-200 ${isFavorite
-                                                    ? "bg-gradient-to-r from-pink-600 to-red-600 text-white"
-                                                    : "border border-white/20 text-white hover:bg-white/10"
+                                                ? "bg-gradient-to-r from-pink-600 to-red-600 text-white"
+                                                : "border border-white/20 text-white hover:bg-white/10"
                                                 }`}
                                         >
                                             <div className="flex items-center justify-center gap-2">
@@ -309,10 +309,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                         </svg>
                     </motion.button>
 
-                    {/* Quality Badge */}
-                    <div className="absolute top-3 left-3 px-2 py-1 bg-green-500/90 rounded-md z-20">
-                        <span className="text-xs font-bold text-white">HD</span>
-                    </div>
+
                 </div>
 
                 {/* Content Section */}
