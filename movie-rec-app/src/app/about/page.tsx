@@ -92,8 +92,8 @@ const AboutPage = () => {
 
     return (
         <div className={`min-h-screen bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950 text-white overflow-hidden ${inter.variable}`}>
-            {/* Header Section - Mobile responsive */}
-            <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
+            {/* Responsive Header Section */}
+            <section className="relative pt-20 sm:pt-24 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 50 }}
@@ -109,7 +109,7 @@ const AboutPage = () => {
                         </motion.div>
 
                         <div className="space-y-4">
-                            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight">
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight">
                                 <span className="bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
                                     About
                                 </span>
@@ -119,7 +119,7 @@ const AboutPage = () => {
                                 </span>
                             </h1>
 
-                            <p className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
+                            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
                                 We're revolutionizing how people discover movies and TV shows through
                                 <motion.span
                                     className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-bold"
@@ -133,37 +133,37 @@ const AboutPage = () => {
                     </motion.div>
                 </div>
 
-                {/* Floating Elements - Responsive sizes */}
+                {/* Floating Elements */}
                 <motion.div
                     style={{ y }}
                     className="absolute inset-0 pointer-events-none opacity-20"
                 >
-                    <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-64 sm:h-64 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-3xl" />
-                    <div className="absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-48 sm:h-48 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-3xl" />
+                    <div className="absolute top-1/4 left-1/4 w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-3xl" />
+                    <div className="absolute bottom-1/4 right-1/4 w-24 sm:w-32 lg:w-48 h-24 sm:h-32 lg:h-48 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-3xl" />
                 </motion.div>
             </section>
 
-            {/* Mission Section - Mobile responsive */}
-            <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+            {/* Responsive Mission Section */}
+            <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
-                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                         <motion.div
                             initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8 }}
                             viewport={{ once: true }}
-                            className="space-y-6 sm:space-y-8 text-center lg:text-left"
+                            className="space-y-6 lg:space-y-8 order-2 lg:order-1"
                         >
                             <div>
-                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 sm:mb-6 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 lg:mb-6 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
                                     Our Mission
                                 </h2>
-                                <p className="text-base sm:text-lg text-gray-300 leading-relaxed mb-4 sm:mb-6">
+                                <p className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed mb-4 lg:mb-6">
                                     In a world overflowing with content, finding the perfect movie or show shouldn't be a chore.
                                     We believe everyone deserves a personalized entertainment experience that adapts to their
                                     mood, preferences, and viewing history.
                                 </p>
-                                <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
+                                <p className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
                                     Our mission is to eliminate decision fatigue and help you discover hidden gems,
                                     trending hits, and everything in between through intelligent technology and
                                     human-centered design.
@@ -180,7 +180,7 @@ const AboutPage = () => {
                                             whileInView={{ opacity: 1, scale: 1 }}
                                             transition={{ delay: index * 0.1 }}
                                             whileHover={{ scale: 1.05, y: -2 }}
-                                            className="p-3 sm:p-4 bg-white/5 backdrop-blur-xl rounded-lg sm:rounded-xl border border-white/10 text-center"
+                                            className="p-3 sm:p-4 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 text-center"
                                         >
                                             <span className="font-semibold text-purple-300 text-sm sm:text-base">{value}</span>
                                         </motion.div>
@@ -194,9 +194,9 @@ const AboutPage = () => {
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8 }}
                             viewport={{ once: true }}
-                            className="relative"
+                            className="relative order-1 lg:order-2"
                         >
-                            <div className="relative bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/20">
+                            <div className="relative bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-xl rounded-2xl lg:rounded-3xl p-6 lg:p-8 border border-white/20">
                                 <div className="grid grid-cols-2 gap-4 sm:gap-6">
                                     {stats.map((stat, index) => (
                                         <motion.div
@@ -205,7 +205,7 @@ const AboutPage = () => {
                                             whileInView={{ scale: 1, opacity: 1 }}
                                             transition={{ delay: index * 0.1 }}
                                             whileHover={{ scale: 1.05 }}
-                                            className="text-center p-3 sm:p-4 bg-white/5 rounded-xl sm:rounded-2xl border border-white/10"
+                                            className="text-center p-3 sm:p-4 bg-white/5 rounded-xl lg:rounded-2xl border border-white/10"
                                         >
                                             <div className="text-xl sm:text-2xl lg:text-3xl font-black text-white mb-1 sm:mb-2">{stat.value}</div>
                                             <div className="text-xs sm:text-sm font-semibold text-purple-300 mb-1">{stat.label}</div>
@@ -219,22 +219,22 @@ const AboutPage = () => {
                 </div>
             </section>
 
-            {/* Features Section - Mobile responsive */}
-            <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8" ref={containerRef}>
+            {/* Responsive Features Section */}
+            <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8" ref={containerRef}>
                 <div className="max-w-7xl mx-auto">
                     <motion.h2
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
-                        className="text-3xl sm:text-4xl lg:text-5xl font-black text-center mb-12 sm:mb-16 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
+                        className="text-3xl sm:text-4xl lg:text-5xl font-black text-center mb-12 lg:mb-16 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
                     >
                         What Makes Us Different
                     </motion.h2>
 
-                    <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
+                    <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
                         {/* Feature List */}
-                        <div className="space-y-3 sm:space-y-4">
+                        <div className="space-y-3 lg:space-y-4 order-2 lg:order-1">
                             {features.map((feature, index) => (
                                 <motion.div
                                     key={index}
@@ -243,198 +243,13 @@ const AboutPage = () => {
                                     transition={{ delay: index * 0.1 }}
                                     whileHover={{ scale: 1.02, x: 10 }}
                                     onClick={() => setActiveFeature(index)}
-                                    className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-all duration-300 cursor-pointer ${activeFeature === index
-                                        ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-purple-500/50"
-                                        : "bg-white/5 border-white/10 hover:border-white/20"
+                                    className={`p-4 lg:p-6 rounded-xl lg:rounded-2xl border transition-all duration-300 cursor-pointer ${activeFeature === index
+                                            ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-purple-500/50"
+                                            : "bg-white/5 border-white/10 hover:border-white/20"
                                         }`}
                                 >
-                                    <div className="flex items-start gap-3 sm:gap-4">
-                                        <div className="text-2xl sm:text-3xl">{feature.icon}</div>
+                                    <div className="flex items-start gap-3 lg:gap-4">
+                                        <div className="text-2xl lg:text-3xl">{feature.icon}</div>
                                         <div className="flex-1">
-                                            <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{feature.title}</h3>
-                                            <p className="text-gray-300 text-sm sm:text-base leading-relaxed">{feature.description}</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        {/* Feature Detail - Mobile responsive */}
-                        <motion.div
-                            key={activeFeature}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="lg:sticky lg:top-8"
-                        >
-                            <div className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/20">
-                                <div className="text-4xl sm:text-5xl lg:text-6xl mb-4 sm:mb-6 text-center">{features[activeFeature].icon}</div>
-                                <h3 className="text-2xl sm:text-3xl font-black text-white mb-3 sm:mb-4 text-center">
-                                    {features[activeFeature].title}
-                                </h3>
-                                <p className="text-gray-300 leading-relaxed mb-6 sm:mb-8 text-center text-sm sm:text-base">
-                                    {features[activeFeature].description}
-                                </p>
-
-                                <div>
-                                    <h4 className="text-base sm:text-lg font-bold text-purple-300 mb-3 sm:mb-4 text-center">Technologies Used</h4>
-                                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
-                                        {features[activeFeature].tech.map((tech, i) => (
-                                            <motion.span
-                                                key={tech}
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                transition={{ delay: i * 0.1 }}
-                                                className="px-3 py-1 bg-white/10 rounded-full text-xs sm:text-sm font-medium text-white border border-white/20"
-                                            >
-                                                {tech}
-                                            </motion.span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Timeline Section */}
-            <section className="py-20 px-6">
-                <div className="max-w-4xl mx-auto">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="text-5xl font-black text-center mb-16 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
-                    >
-                        Our Journey
-                    </motion.h2>
-
-                    <div className="relative">
-                        {/* Timeline Line */}
-                        <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-purple-500 to-pink-500"></div>
-
-                        <div className="space-y-12">
-                            {timeline.map((item, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, x: -50 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: index * 0.1 }}
-                                    viewport={{ once: true }}
-                                    className="relative flex items-start gap-8"
-                                >
-                                    {/* Timeline Dot */}
-                                    <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center font-bold text-white shadow-lg">
-                                        {item.year}
-                                    </div>
-
-                                    {/* Content */}
-                                    <motion.div
-                                        whileHover={{ scale: 1.02, x: 10 }}
-                                        className="flex-1 p-6 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300"
-                                    >
-                                        <h3 className="text-2xl font-bold text-white mb-2">{item.event}</h3>
-                                        <p className="text-gray-300">{item.description}</p>
-                                    </motion.div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Team Section */}
-            <section className="py-20 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="text-5xl font-black text-center mb-16 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
-                    >
-                        Meet Our Team
-                    </motion.h2>
-
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {teamMembers.map((member, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 50 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1 }}
-                                whileHover={{ scale: 1.05, y: -10 }}
-                                viewport={{ once: true }}
-                                className="group relative p-6 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 hover:border-white/20 transition-all duration-300"
-                            >
-                                <div className="text-center space-y-4">
-                                    <div className="text-6xl mb-4">{member.avatar}</div>
-                                    <div>
-                                        <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
-                                        <p className="text-purple-300 font-semibold text-sm mb-3">{member.role}</p>
-                                        <p className="text-gray-400 text-sm leading-relaxed">{member.bio}</p>
-                                    </div>
-
-                                    <div className="flex justify-center gap-3 pt-4">
-                                        {Object.entries(member.social).map(([platform, url]) => (
-                                            <motion.a
-                                                key={platform}
-                                                href={url}
-                                                whileHover={{ scale: 1.2, y: -2 }}
-                                                className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-purple-500/20 transition-colors"
-                                            >
-                                                <span className="text-sm">🔗</span>
-                                            </motion.a>
-                                        ))}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-20 px-6">
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    viewport={{ once: true }}
-                    className="max-w-4xl mx-auto text-center space-y-8"
-                >
-                    <h2 className="text-5xl font-black bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-                        Ready to Discover Your Next Favorite Movie?
-                    </h2>
-                    <p className="text-xl text-gray-300 leading-relaxed">
-                        Join millions of movie lovers who trust FilmFindr to guide their entertainment journey.
-                    </p>
-
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-                        <motion.a
-                            href="/"
-                            whileHover={{ scale: 1.05, boxShadow: "0 25px 50px rgba(168, 85, 247, 0.4)" }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-10 py-5 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 rounded-2xl font-bold text-lg shadow-2xl transition-all duration-300 border border-white/20"
-                        >
-                            Get Started Free
-                        </motion.a>
-
-                        <motion.a
-                            href="/contact"
-                            whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-10 py-5 border-2 border-white/30 rounded-2xl font-semibold text-lg backdrop-blur-xl hover:border-white/50 transition-all duration-300"
-                        >
-                            Contact Us
-                        </motion.a>
-                    </div>
-                </motion.div>
-            </section>
-        </div>
-    );
-};
-
-export default AboutPage;
+                                            <h3 className="text-lg lg:text-xl font-bold text-white mb-2">{feature.title}</h3>
+                                            <p className="text-gray-300 text-sm lg:text-base leading-relaxed">{feature.description}</p
