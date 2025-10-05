@@ -209,8 +209,6 @@ const Footer: React.FC = () => {
                         <span>&copy; {currentYear} FilmFindr. All rights reserved.</span>
 
                     </div>
-
-
                 </motion.div>
             </div>
         </footer>
