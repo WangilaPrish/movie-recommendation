@@ -224,23 +224,7 @@ const Footer: React.FC = () => {
 
                     </div>
 
-                    <div className="flex items-center gap-4">
-                        {socialLinks.map((social) => (
-                            <a
-                                key={social.name}
-                                href={social.href}
-                                className="w-10 h-10 bg-white/5 border border-white/20 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/30 transition-all duration-200 group"
-                                aria-label={social.name}
-                            >
-                                <span className="text-xs font-bold group-hover:scale-110 transition-transform duration-200">
-                                    {social.icon.toUpperCase()}
-                                </span>
-                            </a>
-                        ))}
 
-                        <div className="w-px h-6 bg-white/20 mx-2" />
-
-                    </div>
                 </motion.div>
             </div>
         </footer>
