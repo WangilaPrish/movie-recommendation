@@ -50,28 +50,14 @@ const HeroSection = () => {
                     className="relative z-10 text-center space-y-8 px-6 max-w-6xl"
                     style={{ opacity }}
                 >
-                    {/* Simplified Status Bar */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                        className="flex items-center justify-center gap-6 mb-8 flex-wrap"
-                    >
-                        <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20">
-                            <div className="w-2 h-2 bg-green-400 rounded-full" />
-                            <span className="text-sm text-white/80">Live Now</span>
-                        </div>
-                        <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20">
-                            <span className="text-sm text-white/80">5.2M+ Users</span>
-                        </div>
-                    </motion.div>
+
 
                     {/* Simplified Logo */}
                     <motion.div
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 0.6 }}
-                        className="flex justify-center mb-8"
+                        className="flex justify-center mb-8 mt-5"
                     >
                         <div className="w-24 h-24 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-3xl flex items-center justify-center shadow-2xl border border-white/20">
                             <span className="text-4xl">🎬</span>
