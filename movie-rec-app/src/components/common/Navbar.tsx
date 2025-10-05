@@ -36,8 +36,8 @@ const Navbar: React.FC = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
                 className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                        ? "bg-black/95 backdrop-blur-2xl border-b border-white/20 shadow-xl"
-                        : "bg-black/70 backdrop-blur-xl border-b border-white/10"
+                    ? "bg-black/95 backdrop-blur-2xl border-b border-white/20 shadow-xl"
+                    : "bg-black/70 backdrop-blur-xl border-b border-white/10"
                     }`}
                 style={{ fontFamily: "'Inter Variable', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif" }}
             >
@@ -91,8 +91,8 @@ const Navbar: React.FC = () => {
                                         <Link
                                             href={link.href}
                                             className={`relative group px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 flex items-center ${isActive
-                                                    ? "text-white bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30"
-                                                    : "text-gray-300 hover:text-white hover:bg-white/10"
+                                                ? "text-white bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30"
+                                                : "text-gray-300 hover:text-white hover:bg-white/10"
                                                 }`}
                                         >
                                             <span className="relative z-10">{link.label}</span>
@@ -124,17 +124,7 @@ const Navbar: React.FC = () => {
                         {/* Right Side Actions */}
                         <div className="flex items-center gap-3">
                             {/* Search Button */}
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="hidden sm:flex items-center gap-2 px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-gray-300 hover:text-white hover:bg-white/20 transition-all duration-300"
-                                aria-label="Search movies"
-                            >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                <span className="text-sm font-medium hidden lg:block">Search</span>
-                            </motion.button>
+
 
                             {/* User Avatar */}
                             <motion.div
@@ -197,8 +187,8 @@ const Navbar: React.FC = () => {
                                             <Link
                                                 href={link.href}
                                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive
-                                                        ? "text-white bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30"
-                                                        : "text-gray-300 hover:text-white hover:bg-white/10"
+                                                    ? "text-white bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30"
+                                                    : "text-gray-300 hover:text-white hover:bg-white/10"
                                                     }`}
                                             >
                                                 <span className="font-semibold">{link.label}</span>
