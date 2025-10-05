@@ -21,20 +21,42 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
     const [imageLoaded, setImageLoaded] = useState(false);
     const [showPlayer, setShowPlayer] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration] = useState(7830); // 2:15:30 in seconds
+    const [volume, setVolume] = useState(80);
+    const [isFullscreen, setIsFullscreen] = useState(false);
 
     const imgSrc = movie.poster_path
         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
         : "/placeholder.png";
 
-    // Generate trailer/movie URLs (you can replace with real streaming sources)
-    const getTrailerUrl = () => {
-        // This would typically come from TMDB API or your streaming service
-        return `https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=1&rel=0`;
+    // Format time helper
+    const formatTime = (seconds: number) => {
+        const hours = Math.floor(seconds / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        if (hours > 0) {
+            return `${hours}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
-    const getStreamingUrl = () => {
-        // This would connect to your streaming service or partners
-        return `https://example-streaming-service.com/movie/${movie.id}`;
+    // Simulate video progress
+    const handlePlayPause = () => {
+        setIsPlaying(!isPlaying);
+        if (!isPlaying) {
+            const interval = setInterval(() => {
+                setCurrentTime(prev => {
+                    if (prev >= duration) {
+                        setIsPlaying(false);
+                        clearInterval(interval);
+                        return duration;
+                    }
+                    return prev + 1;
+                });
+            }, 1000);
+        }
     };
 
     return (
@@ -191,91 +213,180 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                 </div>
             </motion.article>
 
-            {/* Movie Player Modal */}
+            {/* Enhanced Movie Player Modal */}
             <AnimatePresence>
                 {showPlayer && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm"
-                        onClick={() => setShowPlayer(false)}
+                        className={`fixed inset-0 z-50 bg-black ${isFullscreen ? '' : 'flex items-center justify-center p-4'}`}
+                        onClick={() => !isFullscreen && setShowPlayer(false)}
                     >
                         <motion.div
-                            initial={{ scale: 0.8, opacity: 0 }}
+                            initial={{ scale: isFullscreen ? 1 : 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
+                            exit={{ scale: isFullscreen ? 1 : 0.8, opacity: 0 }}
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                            className="relative w-full max-w-6xl mx-4 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl"
+                            className={`relative bg-black overflow-hidden shadow-2xl ${isFullscreen
+                                ? 'w-full h-full'
+                                : 'w-full max-w-6xl aspect-video rounded-2xl'
+                                }`}
                             onClick={(e) => e.stopPropagation()}
                         >
-                            {/* Player Header */}
-                            <div className="absolute top-0 left-0 right-0 z-20 p-4 bg-gradient-to-b from-black/80 to-transparent">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                                            <span className="text-white font-bold">▶</span>
+                            {/* Movie Poster as Background/Placeholder */}
+                            <div className="absolute inset-0">
+                                <img
+                                    src={imgSrc}
+                                    alt={movie.title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/60" />
+                            </div>
+
+                            {/* Video Player Interface */}
+                            <div className="relative w-full h-full flex items-center justify-center">
+                                {/* Center Play/Pause Button */}
+                                <motion.button
+                                    onClick={handlePlayPause}
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-2xl"
+                                >
+                                    {isPlaying ? (
+                                        <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                                        </svg>
+                                    ) : (
+                                        <svg className="w-10 h-10 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    )}
+                                </motion.button>
+
+                                {/* Movie Info Overlay (Top) */}
+                                <div className="absolute top-0 left-0 right-0 p-6 bg-gradient-to-b from-black/80 to-transparent">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                                                <span className="text-white font-bold text-lg">▶</span>
+                                            </div>
+                                            <div>
+                                                <h2 className="text-white font-bold text-xl">{movie.title}</h2>
+                                                <p className="text-gray-300 text-sm">{movie.release_date?.slice(0, 4)} • HD • Action, Drama</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h2 className="text-white font-bold text-lg">{movie.title}</h2>
-                                            <p className="text-gray-300 text-sm">{movie.release_date?.slice(0, 4)} • HD</p>
+
+                                        <div className="flex items-center gap-3">
+                                            {!isFullscreen && (
+                                                <motion.button
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                    onClick={() => setIsFullscreen(true)}
+                                                    className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-colors"
+                                                    title="Fullscreen"
+                                                >
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l4 4m12-4v4m0-4h-4m4 0l-4 4M4 16v4m0 0h4m-4 0l4-4m12 4l-4-4m4 4v-4m0 4h-4" />
+                                                    </svg>
+                                                </motion.button>
+                                            )}
+
+                                            <motion.button
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.9 }}
+                                                onClick={() => {
+                                                    setShowPlayer(false);
+                                                    setIsFullscreen(false);
+                                                    setIsPlaying(false);
+                                                }}
+                                                className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-colors"
+                                            >
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </motion.button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Player Controls (Bottom) */}
+                                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
+                                    {/* Progress Bar */}
+                                    <div className="mb-4">
+                                        <div className="w-full h-2 bg-white/20 rounded-full cursor-pointer">
+                                            <div
+                                                className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-300"
+                                                style={{ width: `${(currentTime / duration) * 100}%` }}
+                                            />
                                         </div>
                                     </div>
 
-                                    <motion.button
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        onClick={() => setShowPlayer(false)}
-                                        className="w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors"
-                                    >
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </motion.button>
-                                </div>
-                            </div>
+                                    <div className="flex items-center justify-between">
+                                        {/* Left Controls */}
+                                        <div className="flex items-center gap-4">
+                                            <motion.button
+                                                onClick={handlePlayPause}
+                                                whileHover={{ scale: 1.05 }}
+                                                className="p-2 text-white hover:text-purple-400 transition-colors"
+                                            >
+                                                {isPlaying ? (
+                                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M8 5v14l11-7z" />
+                                                    </svg>
+                                                )}
+                                            </motion.button>
 
-                            {/* Video Player */}
-                            <iframe
-                                src={getTrailerUrl()}
-                                title={`${movie.title} - Watch Now`}
-                                className="w-full h-full"
-                                allowFullScreen
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            />
+                                            <div className="flex items-center gap-2">
+                                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
+                                                </svg>
+                                                <div className="w-20 h-1 bg-white/20 rounded-full">
+                                                    <div
+                                                        className="h-full bg-white rounded-full"
+                                                        style={{ width: `${volume}%` }}
+                                                    />
+                                                </div>
+                                            </div>
 
-                            {/* Player Controls Overlay */}
-                            <div className="absolute bottom-0 left-0 right-0 z-20 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-4">
-                                        <span className="text-white text-sm">0:00 / 2:15:30</span>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-gray-300 text-sm">Quality:</span>
-                                            <select className="bg-black/50 text-white text-sm rounded px-2 py-1 border border-white/20">
+                                            <span className="text-white text-sm font-medium">
+                                                {formatTime(currentTime)} / {formatTime(duration)}
+                                            </span>
+                                        </div>
+
+                                        {/* Right Controls */}
+                                        <div className="flex items-center gap-3">
+                                            <select className="bg-black/50 text-white text-sm rounded px-3 py-1 border border-white/20">
                                                 <option>1080p HD</option>
                                                 <option>720p</option>
                                                 <option>480p</option>
                                             </select>
-                                        </div>
-                                    </div>
 
-                                    <div className="flex items-center gap-3">
-                                        <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            className="px-4 py-2 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg text-sm"
-                                            onClick={() => window.open(getStreamingUrl(), '_blank')}
-                                        >
-                                            Watch Full Movie
-                                        </motion.button>
-                                        <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            className="p-2 bg-white/20 text-white rounded-lg"
-                                            title="Fullscreen"
-                                        >
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8V4m0 0h4M4 4l4 4m12-4v4m0-4h-4m4 0l-4 4M4 16v4m0 0h4m-4 0l4-4m12 4l-4-4m4 4v-4m0 4h-4" />
-                                            </svg>
-                                        </motion.button>
+                                            <motion.button
+                                                whileHover={{ scale: 1.05 }}
+                                                className="px-4 py-2 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg text-sm"
+                                                onClick={() => alert('Redirecting to premium streaming...')}
+                                            >
+                                                Upgrade to HD
+                                            </motion.button>
+
+                                            {isFullscreen && (
+                                                <motion.button
+                                                    whileHover={{ scale: 1.05 }}
+                                                    onClick={() => setIsFullscreen(false)}
+                                                    className="p-2 text-white hover:text-purple-400 transition-colors"
+                                                    title="Exit Fullscreen"
+                                                >
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </motion.button>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
