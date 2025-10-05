@@ -1,6 +1,6 @@
 "use client";
 import { AnimatePresence } from "framer-motion";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface Movie {
@@ -22,6 +22,8 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
     const [imageLoaded, setImageLoaded] = useState(false);
     const [showPlayer, setShowPlayer] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
+    const [trailerKey, setTrailerKey] = useState<string | null>(null);
+    const [loadingTrailer, setLoadingTrailer] = useState(false);
 
     const imgSrc = movie.poster_path
         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -30,6 +32,39 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
     const backdropSrc = movie.poster_path
         ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
         : "/placeholder.png";
+
+    // Fetch trailer when component mounts
+    useEffect(() => {
+        const fetchTrailer = async () => {
+            try {
+                // Replace with your actual TMDB API key
+                const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY || 'your_api_key_here';
+                const response = await fetch(
+                    `https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${API_KEY}&language=en-US`
+                );
+                const data = await response.json();
+
+                // Find the first trailer or teaser
+                const trailer = data.results?.find(
+                    (video: any) =>
+                        video.type === 'Trailer' &&
+                        video.site === 'YouTube'
+                ) || data.results?.find(
+                    (video: any) =>
+                        video.type === 'Teaser' &&
+                        video.site === 'YouTube'
+                );
+
+                if (trailer) {
+                    setTrailerKey(trailer.key);
+                }
+            } catch (error) {
+                console.error('Error fetching trailer:', error);
+            }
+        };
+
+        fetchTrailer();
+    }, [movie.id]);
 
     // Memoized streaming options to prevent recreation on every render
     const streamingOptions = useCallback(() => {
@@ -68,12 +103,20 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
 
     const handleClosePlayer = useCallback(() => {
         setShowPlayer(false);
+        setLoadingTrailer(false);
     }, []);
 
     const handleTrailerClick = useCallback(() => {
-        setShowDetails(false);
-        setShowPlayer(true);
-    }, []);
+        if (trailerKey) {
+            setShowDetails(false);
+            setLoadingTrailer(true);
+            setShowPlayer(true);
+        } else {
+            // Fallback: search YouTube for the movie title
+            const searchQuery = encodeURIComponent(`${movie.title} trailer`);
+            window.open(`https://www.youtube.com/results?search_query=${searchQuery}`, '_blank');
+        }
+    }, [trailerKey, movie.title]);
 
     // Simplified modal with minimal animations
     const DetailsModal = () => (
@@ -194,13 +237,20 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                                     <div className="flex flex-col sm:flex-row gap-3 pt-4">
                                         <button
                                             onClick={handleTrailerClick}
-                                            className="flex-1 p-4 bg-gradient-to-r from-red-600 to-red-700 rounded-xl hover:from-red-700 hover:to-red-800 transition-colors duration-200"
+                                            disabled={loadingTrailer}
+                                            className="flex-1 p-4 bg-gradient-to-r from-red-600 to-red-700 rounded-xl hover:from-red-700 hover:to-red-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             <div className="flex items-center justify-center gap-3">
-                                                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path d="M8 5v14l11-7z" />
-                                                </svg>
-                                                <span className="text-white font-semibold">Watch Trailer</span>
+                                                {loadingTrailer ? (
+                                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                ) : (
+                                                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M8 5v14l11-7z" />
+                                                    </svg>
+                                                )}
+                                                <span className="text-white font-semibold">
+                                                    {loadingTrailer ? "Loading..." : trailerKey ? "Watch Trailer" : "Search Trailer"}
+                                                </span>
                                             </div>
                                         </button>
 
@@ -280,7 +330,10 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                         </svg>
                     </button>
 
-
+                    {/* Quality Badge */}
+                    <div className="absolute top-3 left-3 px-2 py-1 bg-green-500/90 rounded-md z-20">
+                        <span className="text-xs font-bold text-white">HD</span>
+                    </div>
                 </div>
 
                 {/* Content Section */}
@@ -328,7 +381,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
             {/* Render modal via portal to document.body */}
             {typeof window !== 'undefined' && createPortal(<DetailsModal />, document.body)}
 
-            {/* Simplified Trailer Player Modal */}
+            {/* Enhanced Trailer Player Modal */}
             {typeof window !== 'undefined' && createPortal(
                 <AnimatePresence>
                     {showPlayer && (
@@ -349,13 +402,45 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                                     </svg>
                                 </button>
 
-                                <iframe
-                                    src={`https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=1&rel=0`}
-                                    title={`${movie.title} - Trailer`}
-                                    className="w-full h-full"
-                                    allowFullScreen
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                />
+                                {loadingTrailer && (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div className="flex flex-col items-center gap-4">
+                                            <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                                            <p className="text-white text-lg">Loading trailer...</p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {trailerKey ? (
+                                    <iframe
+                                        src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&controls=1&rel=0&modestbranding=1`}
+                                        title={`${movie.title} - Trailer`}
+                                        className="w-full h-full"
+                                        allowFullScreen
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        onLoad={() => setLoadingTrailer(false)}
+                                    />
+                                ) : (
+                                    <div className="flex items-center justify-center h-full">
+                                        <div className="text-center p-8">
+                                            <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                            </svg>
+                                            <h3 className="text-xl font-bold text-white mb-2">Trailer Not Available</h3>
+                                            <p className="text-gray-400 mb-4">Sorry, we couldn't find a trailer for this movie.</p>
+                                            <button
+                                                onClick={() => {
+                                                    const searchQuery = encodeURIComponent(`${movie.title} trailer`);
+                                                    window.open(`https://www.youtube.com/results?search_query=${searchQuery}`, '_blank');
+                                                    handleClosePlayer();
+                                                }}
+                                                className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg text-white font-semibold transition-colors"
+                                            >
+                                                Search on YouTube
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
