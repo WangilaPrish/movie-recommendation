@@ -49,21 +49,7 @@ const HeroSection = () => {
                     className="relative z-10 text-center space-y-6 sm:space-y-8 w-full max-w-7xl mx-auto"
                     style={{ opacity }}
                 >
-                    {/* Status Bar */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                        className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mb-6 sm:mb-8"
-                    >
-                        <div className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20">
-                            <div className="w-2 h-2 bg-green-400 rounded-full" />
-                            <span className="text-xs sm:text-sm text-white/80">Live Now</span>
-                        </div>
-                        <div className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20">
-                            <span className="text-xs sm:text-sm text-white/80">5.2M+ Users</span>
-                        </div>
-                    </motion.div>
+
 
                     {/* Logo */}
                     <motion.div
