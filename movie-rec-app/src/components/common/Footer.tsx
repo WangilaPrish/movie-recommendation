@@ -80,16 +80,7 @@ const Footer: React.FC = () => {
                                 Join millions of users finding their perfect entertainment match.
                             </p>
 
-                            {/* Status Badge - Mobile Responsive */}
-                            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 pt-4">
-                                <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 rounded-full border border-green-500/30">
-                                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                                    <span className="text-green-300 text-xs sm:text-sm font-medium">Live Service</span>
-                                </div>
-                                <div className="text-xs sm:text-sm text-gray-500">
-                                    <span className="text-white font-semibold">2.5M+</span> active users
-                                </div>
-                            </div>
+
                         </motion.div>
                     </div>
 
