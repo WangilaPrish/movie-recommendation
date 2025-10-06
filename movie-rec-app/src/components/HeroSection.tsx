@@ -123,12 +123,6 @@ const HeroSection = () => {
                             </span>
                         </a>
 
-                        <button
-                            onClick={() => setShowTrailer(true)}
-                            className="w-full sm:w-auto group px-6 sm:px-10 py-3 sm:py-5 border-2 border-white/30 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-lg backdrop-blur-xl hover:border-white/50 hover:scale-105 transition-all duration-300"
-                        >
-
-                        </button>
                     </motion.div>
 
                     {/* Stats - Responsive Grid */}
