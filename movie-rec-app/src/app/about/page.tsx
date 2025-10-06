@@ -244,12 +244,170 @@ const AboutPage = () => {
                                     whileHover={{ scale: 1.02, x: 10 }}
                                     onClick={() => setActiveFeature(index)}
                                     className={`p-4 lg:p-6 rounded-xl lg:rounded-2xl border transition-all duration-300 cursor-pointer ${activeFeature === index
-                                            ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-purple-500/50"
-                                            : "bg-white/5 border-white/10 hover:border-white/20"
+                                        ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-purple-500/50"
+                                        : "bg-white/5 border-white/10 hover:border-white/20"
                                         }`}
                                 >
                                     <div className="flex items-start gap-3 lg:gap-4">
                                         <div className="text-2xl lg:text-3xl">{feature.icon}</div>
                                         <div className="flex-1">
                                             <h3 className="text-lg lg:text-xl font-bold text-white mb-2">{feature.title}</h3>
-                                            <p className="text-gray-300 text-sm lg:text-base leading-relaxed">{feature.description}</p
+                                            <p className="text-gray-300 text-sm lg:text-base leading-relaxed mb-3">{feature.description}</p>
+                                            <div className="flex flex-wrap gap-2">
+                                                {feature.tech.map((tech) => (
+                                                    <span
+                                                        key={tech}
+                                                        className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-md text-xs font-medium"
+                                                    >
+                                                        {tech}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {/* Feature Display */}
+                        <motion.div
+                            key={activeFeature}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3 }}
+                            className="relative order-1 lg:order-2"
+                        >
+                            <div className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-xl rounded-2xl lg:rounded-3xl p-6 lg:p-8 border border-white/20 h-full flex items-center justify-center">
+                                <div className="text-center">
+                                    <div className="text-6xl lg:text-8xl mb-4 lg:mb-6">{features[activeFeature].icon}</div>
+                                    <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">{features[activeFeature].title}</h3>
+                                    <p className="text-gray-300 text-sm lg:text-base leading-relaxed max-w-md mx-auto">
+                                        {features[activeFeature].description}
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Responsive Team Section */}
+            <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="text-3xl sm:text-4xl lg:text-5xl font-black text-center mb-12 lg:mb-16 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
+                    >
+                        Meet Our Team
+                    </motion.h2>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                        {teamMembers.map((member, index) => (
+                            <motion.div
+                                key={member.name}
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                whileHover={{ scale: 1.05, y: -10 }}
+                                viewport={{ once: true }}
+                                className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 text-center"
+                            >
+                                <div className="text-4xl lg:text-5xl mb-4">{member.avatar}</div>
+                                <h3 className="text-lg lg:text-xl font-bold text-white mb-2">{member.name}</h3>
+                                <p className="text-purple-300 font-semibold mb-3 text-sm lg:text-base">{member.role}</p>
+                                <p className="text-gray-400 text-xs lg:text-sm leading-relaxed mb-4">{member.bio}</p>
+
+                                <div className="flex justify-center gap-3">
+                                    {Object.entries(member.social).map(([platform, url]) => (
+                                        <motion.a
+                                            key={platform}
+                                            href={url}
+                                            whileHover={{ scale: 1.1 }}
+                                            whileTap={{ scale: 0.9 }}
+                                            className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/20 transition-colors"
+                                        >
+                                            <span className="text-xs font-bold">{platform.slice(0, 2).toUpperCase()}</span>
+                                        </motion.a>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Responsive Timeline Section */}
+            <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-4xl mx-auto">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="text-3xl sm:text-4xl lg:text-5xl font-black text-center mb-12 lg:mb-16 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
+                    >
+                        Our Journey
+                    </motion.h2>
+
+                    <div className="space-y-6 lg:space-y-8">
+                        {timeline.map((item, index) => (
+                            <motion.div
+                                key={item.year}
+                                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                viewport={{ once: true }}
+                                className="flex flex-col sm:flex-row items-start gap-4 lg:gap-6"
+                            >
+                                <div className="flex-shrink-0 w-20 lg:w-24 text-center">
+                                    <div className="text-2xl lg:text-3xl font-black text-purple-400">{item.year}</div>
+                                </div>
+                                <div className="flex-1 bg-white/5 backdrop-blur-xl rounded-2xl p-4 lg:p-6 border border-white/10">
+                                    <h3 className="text-lg lg:text-xl font-bold text-white mb-2">{item.event}</h3>
+                                    <p className="text-gray-300 text-sm lg:text-base leading-relaxed">{item.description}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Responsive CTA Section */}
+            <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-4xl mx-auto text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-xl rounded-2xl lg:rounded-3xl p-8 lg:p-12 border border-white/20"
+                    >
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 lg:mb-6 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+                            Ready to Discover?
+                        </h2>
+                        <p className="text-lg lg:text-xl text-gray-300 mb-6 lg:mb-8 leading-relaxed">
+                            Join millions of users who have already transformed their entertainment experience.
+                            Your next favorite movie is just a click away.
+                        </p>
+                        <motion.a
+                            href="/"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="inline-flex items-center gap-3 px-8 lg:px-12 py-4 lg:py-6 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 rounded-xl lg:rounded-2xl font-bold text-lg lg:text-xl text-white shadow-2xl hover:shadow-purple-500/25 transition-all duration-300"
+                        >
+                            <span>Start Exploring</span>
+                            <svg className="w-5 h-5 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
+                            </svg>
+                        </motion.a>
+                    </motion.div>
+                </div>
+            </section>
+        </div>
+    );
+};
+
+export default AboutPage;
