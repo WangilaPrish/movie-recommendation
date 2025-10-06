@@ -149,35 +149,9 @@ const Footer: React.FC = () => {
                 >
                     <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-xs sm:text-sm text-gray-400 text-center sm:text-left">
                         <span>&copy; {currentYear} FilmFindr. All rights reserved.</span>
-                        <div className="hidden sm:flex items-center gap-4">
-                            <span>Built with React 19</span>
-                            <div className="w-1 h-1 bg-gray-600 rounded-full" />
-                            <span>Powered by TMDB</span>
-                        </div>
+
                     </div>
 
-                    <div className="flex items-center gap-3 sm:gap-4">
-                        {socialLinks.map((social) => (
-                            <a
-                                key={social.name}
-                                href={social.href}
-                                className="w-8 h-8 sm:w-10 sm:h-10 bg-white/5 border border-white/20 rounded-lg sm:rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/30 transition-all duration-200 group"
-                                aria-label={social.name}
-                            >
-                                <span className="text-xs font-bold group-hover:scale-110 transition-transform duration-200">
-                                    {social.icon.toUpperCase()}
-                                </span>
-                            </a>
-                        ))}
-
-                        <div className="w-px h-4 sm:h-6 bg-white/20 mx-1 sm:mx-2" />
-
-                        <div className="flex items-center gap-2 sm:gap-3">
-                            <span className="text-xs text-gray-500 hidden sm:block">Made with</span>
-                            <div className="w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-sm animate-pulse" />
-                            <span className="text-xs text-gray-500 hidden sm:block">for movie lovers</span>
-                        </div>
-                    </div>
                 </motion.div>
             </div>
         </footer>
