@@ -36,34 +36,34 @@ const Footer: React.FC = () => {
 
     return (
         <footer className="relative w-full bg-gradient-to-t from-black via-gray-950 to-gray-900 border-t border-white/10 text-white overflow-hidden">
-            {/* Background Elements */}
+            {/* Background Elements - Responsive */}
             <div className="absolute inset-0 opacity-20">
-                <div className="absolute top-0 left-1/4 w-64 h-64 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-full blur-3xl" />
-                <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-full blur-3xl" />
+                <div className="absolute top-0 left-1/4 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-full blur-3xl" />
+                <div className="absolute bottom-0 right-1/4 w-24 h-24 sm:w-36 sm:h-36 lg:w-48 lg:h-48 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-full blur-3xl" />
             </div>
 
-            <div className="relative z-10 max-w-7xl mx-auto px-6">
-                {/* Main Footer Content */}
-                <div className="py-16 grid grid-cols-1 lg:grid-cols-6 gap-12">
-                    {/* Brand Section */}
-                    <div className="lg:col-span-2 space-y-6">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Main Footer Content - Responsive Grid */}
+                <div className="py-8 sm:py-12 lg:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 sm:gap-8 lg:gap-12">
+                    {/* Brand Section - Responsive Spanning */}
+                    <div className="sm:col-span-2 lg:col-span-2 space-y-4 sm:space-y-6 text-center sm:text-left">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6 }}
                             viewport={{ once: true }}
                         >
-                            <Link href="/" className="flex items-center gap-3 group mb-6">
+                            <Link href="/" className="inline-flex items-center gap-2 sm:gap-3 group mb-4 sm:mb-6">
                                 <div className="relative">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
-                                        <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center">
-                                            <div className="w-3 h-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-sm"></div>
+                                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
+                                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-white rounded-md flex items-center justify-center">
+                                            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-sm"></div>
                                         </div>
                                     </div>
-                                    <div className="absolute -inset-1 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl opacity-0 group-hover:opacity-30 blur transition-opacity duration-300" />
+                                    <div className="absolute -inset-1 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-30 blur transition-opacity duration-300" />
                                 </div>
                                 <span
-                                    className="text-2xl font-black tracking-tight"
+                                    className="text-xl sm:text-2xl font-black tracking-tight"
                                     style={{
                                         background: "linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #ec4899 100%)",
                                         WebkitBackgroundClip: "text",
@@ -75,139 +75,117 @@ const Footer: React.FC = () => {
                                 </span>
                             </Link>
 
-                            <p className="text-gray-400 leading-relaxed max-w-sm">
+                            <p className="text-gray-400 leading-relaxed text-sm sm:text-base max-w-sm mx-auto sm:mx-0">
                                 Discover your next favorite movie with AI-powered recommendations.
                                 Join millions of users finding their perfect entertainment match.
                             </p>
 
-
+                            {/* Status Badge - Mobile Responsive */}
+                            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 pt-4">
+                                <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 rounded-full border border-green-500/30">
+                                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                                    <span className="text-green-300 text-xs sm:text-sm font-medium">Live Service</span>
+                                </div>
+                                <div className="text-xs sm:text-sm text-gray-500">
+                                    <span className="text-white font-semibold">2.5M+</span> active users
+                                </div>
+                            </div>
                         </motion.div>
                     </div>
 
-                    {/* Links Sections */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        viewport={{ once: true }}
-                        className="space-y-4"
-                    >
-                        <h3 className="text-white font-bold text-sm uppercase tracking-wider">Product</h3>
-                        <div className="space-y-3">
-                            {footerLinks.product.map((link) => (
-                                <Link
-                                    key={link.label}
-                                    href={link.href}
-                                    className="block text-gray-400 hover:text-white transition-colors duration-200 text-sm"
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        viewport={{ once: true }}
-                        className="space-y-4"
-                    >
-                        <h3 className="text-white font-bold text-sm uppercase tracking-wider">Company</h3>
-                        <div className="space-y-3">
-                            {footerLinks.company.map((link) => (
-                                <Link
-                                    key={link.label}
-                                    href={link.href}
-                                    className="block text-gray-400 hover:text-white transition-colors duration-200 text-sm"
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                        viewport={{ once: true }}
-                        className="space-y-4"
-                    >
-                        <h3 className="text-white font-bold text-sm uppercase tracking-wider">Support</h3>
-                        <div className="space-y-3">
-                            {footerLinks.support.map((link) => (
-                                <Link
-                                    key={link.label}
-                                    href={link.href}
-                                    className="block text-gray-400 hover:text-white transition-colors duration-200 text-sm"
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                        viewport={{ once: true }}
-                        className="space-y-4"
-                    >
-                        <h3 className="text-white font-bold text-sm uppercase tracking-wider">Legal</h3>
-                        <div className="space-y-3">
-                            {footerLinks.legal.map((link) => (
-                                <Link
-                                    key={link.label}
-                                    href={link.href}
-                                    className="block text-gray-400 hover:text-white transition-colors duration-200 text-sm"
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </div>
-                    </motion.div>
+                    {/* Links Sections - Responsive */}
+                    {Object.entries(footerLinks).map(([category, links], index) => (
+                        <motion.div
+                            key={category}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.1 * (index + 1) }}
+                            viewport={{ once: true }}
+                            className="space-y-3 sm:space-y-4"
+                        >
+                            <h3 className="text-white font-bold text-xs sm:text-sm uppercase tracking-wider">
+                                {category}
+                            </h3>
+                            <div className="space-y-2 sm:space-y-3">
+                                {links.map((link) => (
+                                    <Link
+                                        key={link.label}
+                                        href={link.href}
+                                        className="block text-gray-400 hover:text-white transition-colors duration-200 text-xs sm:text-sm"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
 
-                {/* Newsletter Section */}
+                {/* Newsletter Section - Responsive */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.5 }}
                     viewport={{ once: true }}
-                    className="py-8 border-t border-white/10"
+                    className="py-6 sm:py-8 border-t border-white/10"
                 >
-                    <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+                    <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8">
                         <div className="text-center lg:text-left">
-                            <h3 className="text-xl font-bold text-white mb-2">Stay Updated</h3>
-                            <p className="text-gray-400">Get the latest movie recommendations and platform updates.</p>
+                            <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Stay Updated</h3>
+                            <p className="text-gray-400 text-sm sm:text-base">Get the latest movie recommendations and platform updates.</p>
                         </div>
 
-                        <div className="flex gap-3 w-full lg:w-auto max-w-md">
+                        <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto max-w-md">
                             <input
                                 type="email"
                                 placeholder="Enter your email"
-                                className="flex-1 px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 backdrop-blur-sm"
+                                className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/5 border border-white/20 rounded-lg sm:rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 backdrop-blur-sm text-sm sm:text-base"
                             />
-                            <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-semibold text-white hover:scale-105 transition-transform duration-200 whitespace-nowrap">
+                            <button className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg sm:rounded-xl font-semibold text-white hover:scale-105 transition-transform duration-200 whitespace-nowrap text-sm sm:text-base">
                                 Subscribe
                             </button>
                         </div>
                     </div>
                 </motion.div>
 
-                {/* Bottom Section */}
+                {/* Bottom Section - Responsive */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.6 }}
                     viewport={{ once: true }}
-                    className="py-8 border-t border-white/10 flex flex-col lg:flex-row items-center justify-between gap-6"
+                    className="py-6 sm:py-8 border-t border-white/10 flex flex-col lg:flex-row items-center justify-between gap-4 sm:gap-6"
                 >
-                    <div className="flex items-center gap-6 text-sm text-gray-400">
+                    <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-xs sm:text-sm text-gray-400 text-center sm:text-left">
                         <span>&copy; {currentYear} FilmFindr. All rights reserved.</span>
+                        <div className="hidden sm:flex items-center gap-4">
+                            <span>Built with React 19</span>
+                            <div className="w-1 h-1 bg-gray-600 rounded-full" />
+                            <span>Powered by TMDB</span>
+                        </div>
+                    </div>
 
+                    <div className="flex items-center gap-3 sm:gap-4">
+                        {socialLinks.map((social) => (
+                            <a
+                                key={social.name}
+                                href={social.href}
+                                className="w-8 h-8 sm:w-10 sm:h-10 bg-white/5 border border-white/20 rounded-lg sm:rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/30 transition-all duration-200 group"
+                                aria-label={social.name}
+                            >
+                                <span className="text-xs font-bold group-hover:scale-110 transition-transform duration-200">
+                                    {social.icon.toUpperCase()}
+                                </span>
+                            </a>
+                        ))}
+
+                        <div className="w-px h-4 sm:h-6 bg-white/20 mx-1 sm:mx-2" />
+
+                        <div className="flex items-center gap-2 sm:gap-3">
+                            <span className="text-xs text-gray-500 hidden sm:block">Made with</span>
+                            <div className="w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-sm animate-pulse" />
+                            <span className="text-xs text-gray-500 hidden sm:block">for movie lovers</span>
+                        </div>
                     </div>
                 </motion.div>
             </div>
