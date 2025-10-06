@@ -149,9 +149,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                                         className="w-48 sm:w-64 lg:w-80 h-auto rounded-xl lg:rounded-2xl shadow-2xl"
                                         loading="eager"
                                     />
-                                    <div className="absolute top-3 lg:top-4 left-3 lg:left-4 px-2 lg:px-3 py-1 bg-green-500 rounded-md lg:rounded-lg">
-                                        <span className="text-white font-bold text-xs lg:text-sm">HD</span>
-                                    </div>
+
                                 </div>
                             </div>
 
@@ -333,10 +331,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                         </svg>
                     </button>
 
-                    {/* Quality Badge */}
-                    <div className="absolute top-2 left-2 lg:top-3 lg:left-3 px-1.5 py-0.5 lg:px-2 lg:py-1 bg-green-500/90 rounded-md z-20">
-                        <span className="text-xs lg:text-xs font-bold text-white">HD</span>
-                    </div>
+
                 </div>
 
                 {/* Content Section - Responsive Padding */}
